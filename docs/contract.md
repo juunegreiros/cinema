@@ -155,12 +155,12 @@ Exemplo:
 "bookingId": "9f8e7d6c-5b4a-3210-fedc-ba0987654321",
 "items": [
 {
-"produtoId": "pipoca-grande",
+"productId": "pipoca-grande",
 "unitPrice": 25.50
 "amount": 1,
 },
 {
-"produtoId": "refrigerante-500ml",
+"productId": "refrigerante-500ml",
 "unitPrice": 12.00
 "amount": 2,
 }

@@ -24,6 +24,8 @@
 - `status.vipOrder` Mostra status do pedido na bomboniere
 - `create.vipOrder` Cria um pedido para a bomboniere
 - `manage.users` Gerenciar permission e roles dos usuários
-- `creat.custumer` Criar novo custumer
-- `view.custumer` Visualizar custumer
-- `manage.custumer` Gerenciar cadastros de custumer (editar, ativar/desativar)
+- `view.user` Ver usuários
+- `invite.user` Convidar usuários
+- `manage.user` Gerencia usuários
+- `view.role` Ver funções
+- `manage.role` Gerencia funções (editar, ativar/desativar)

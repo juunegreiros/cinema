@@ -135,9 +135,6 @@ _Exemplo:_
 
 _Regras de Negócio:_
 
-• Usuário precisa ter reserva confirmed.
-• Só pode ser feito para salas do tipo VIP.
-• Só pode ser criado durante a janela de trailers.
 • Deve ser enviado para API externa da bomboniere.
 • Deve armazenar informações para auditoria
 

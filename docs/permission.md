@@ -1,0 +1,31 @@
+# PERMISSION CINEMA
+
+- `view.movie` Visualizar filmes
+- `view.productActive` Visualizar filmes ativos (Padrão para customer)
+- `manage.movie` Gerenciar filmes (criar, editar, ativar/desativar)
+- `buy.ticket` Comprar ingresso
+- `view.ticket` Visualizar todos os ingressos comprados
+- `view.ownTicket` Visualizar meus ingressos (Padrão para customer)
+- `manage.ticket` Gerenciar ingressos de um filme (criar, editar, ativar/cancelar)
+- `view.room` Visualizar salas ativas
+- `manage.room` Gerenciar salas (criar, editar, ativar/desativar)
+- `view.seat` Visualiza assentos ativos
+- `manage.seats` Gerenciar assentos dentro de uma sala (criar, editar, ativar/desativar)
+- `view.session` Visualiza sessão ativa de um filme
+- `manage.session` Gerenciar sessões de um filme (criar, editar, ativar/desativar)
+- `view.booking` Visualizar reservas de sessões ativas
+- `view.ownBooking` Visualizar minha reserva (Padrão para customer)
+- `update.booking` Edita informação de reservas
+- `create.booking` Cria nova reserva
+- `manage.booking` Gerenciar Reservas (criar, editar, ativar/desativar)
+- `view.vipOrder` Visualizar todos os pedidos da sala vip (destinado para bomboniere)
+- `view.ownVipOrder` Visualizar meu pedido (Padrão para customer)
+- `send.vipOrder` Enviar pedidos para bomboniere
+- `status.vipOrder` Mostra status do pedido na bomboniere
+- `create.vipOrder` Cria um pedido para a bomboniere
+- `manage.users` Gerenciar permission e roles dos usuários
+- `view.user` Ver usuários
+- `invite.user` Convidar usuários
+- `manage.user` Gerencia usuários
+- `view.role` Ver funções
+- `manage.role` Gerencia funções (editar, ativar/desativar)

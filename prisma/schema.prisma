@@ -13,7 +13,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model movie {
+model Movie {
   id                  String    @id @default(uuid())
   title               String     
   durationMinutes     Int   
@@ -29,4 +29,32 @@ enum AgeRate {
   MAIOR_14
   MAIOR_16
   MAIOR_18
+}
+
+model Room {
+  id          String    @id @default(uuid())
+  name        String
+  type        RoomType
+  active      Boolean
+  createdAt   DateTime    @default(now())
+
+  seats       Seat[]
+}
+
+enum RoomType {
+  NORMAL
+  PRO_MAX
+  VIP
+}
+
+model Seat {
+  id          String    @id @default(uuid())
+  identifier  String
+  roomId      String
+  active      Boolean
+  createdAt   DateTime  @default(now())
+
+  room        Room     @relation(fields: [roomId], references: [id])
+
+  @@unique([roomId, identifier])
 }

@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Movie {
+  id                  String    @id @default(uuid())
+  title               String     
+  durationMinutes     Int   
+  ageRating           AgeRate  
+  active              Boolean
+  createdAt           DateTime  @default(now()) // saber quando foi criado
+
+  sessions            Session[] // indica relação desse model com o Session
+}
+
+enum AgeRate { // opções disponiveis dentro do ageRating
+  LIVRE
+  MAIOR_10
+  MAIOR_12
+  MAIOR_14
+  MAIOR_16
+  MAIOR_18
+}
+
+model Room {
+  id          String    @id @default(uuid())
+  name        String
+  type        RoomType
+  active      Boolean
+  createdAt   DateTime  @default(now()) // saber quando foi criado
+
+  seats       Seat[] // indica relação com o model Seat
+  sessions    Session[] // indica relaçao com o model Session
+}
+
+enum RoomType { // opções disponiveis no type
+  NORMAL
+  PRO_MAX
+  VIP
+}
+
+model Seat {
+  id          String    @id @default(uuid())
+  identifier  String
+  roomId      String
+  active      Boolean
+  createdAt   DateTime  @default(now()) // saber quando foi criado
+
+  room        Room      @relation(fields: [roomId], references: [id]) // Cria a relaçao com o model room e indica os campos que vão ser consultados
+
+  bookings Booking[] // indica relaçao com o model Booking
+
+  @@unique([roomId, identifier]) // bloqueia que exista outro identificador igual na mesma room
+}
+
+model Session {
+  id                String    @id @default(uuid()) 
+  movieId           String
+  roomId            String
+  durationMinutes   Int
+  start             DateTime
+  end               DateTime
+  createdAt         DateTime  @default(now()) // saber quando foi criado
+
+  movie             Movie     @relation(fields: [movieId], references: [id]) // Cria a relação com o model Movie e indica os campos a ser consultados
+  room              Room      @relation(fields: [roomId], references: [id])  // Cria a relação com o model Room e indica os campos a ser consultados
+
+  bookings Booking[] // indica a relaçao com o model Booking
+}
+
+model Booking {
+id            String      @id @default(uuid())
+userId        String
+sessionId     String
+seatId        String
+status        BookStatus  @default(PENDING) // define uma opção como default na criação
+createdAt     DateTime    @default(now()) // saber quando foi criado
+updateAt      DateTime    @updateAt // saber quando foi alterado o status
+
+user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
+session     Session     @relation(fields: [sessionId], references: [id]) // Cria a relação com o model Session e indica os campos a ser consultados
+seat        Seat        @relation(fields: [seatId], references: [id]) // Cria a relação com o model Seat e indica os campos a ser consultados
+
+@@unique([sessionId, seatId]) //bloqueia que exista duas reservas para a mesma cadeira na mesma sessão 
+                              //(consultar o que muda quando tivermos um booking cancelled, 
+                              //pois se essa regra continuar, o assento fica bloqueado para uma nova compra)
+}
+
+enum BookStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  USED 
+}

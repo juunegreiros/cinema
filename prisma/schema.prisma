@@ -91,10 +91,6 @@ updateAt      DateTime    @updateAt // saber quando foi alterado o status
 user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
 session     Session     @relation(fields: [sessionId], references: [id]) // Cria a relação com o model Session e indica os campos a ser consultados
 seat        Seat        @relation(fields: [seatId], references: [id]) // Cria a relação com o model Seat e indica os campos a ser consultados
-
-@@unique([sessionId, seatId]) //bloqueia que exista duas reservas para a mesma cadeira na mesma sessão 
-                              //(consultar o que muda quando tivermos um booking cancelled, 
-                              //pois se essa regra continuar, o assento fica bloqueado para uma nova compra)
 }
 
 enum BookStatus {

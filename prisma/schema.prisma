@@ -1,0 +1,167 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+// --- CONTRATO CINEMA ---
+model Movie {
+  id              String    @id @default(uuid())
+  title           String
+  durationMinutes Int
+  ageRating       AgeRating
+  active          Boolean
+  sessions        Session[]
+}
+
+model Room {
+  id       String   @id @default(uuid())
+  name     String   @unique
+  type     RoomType
+  active   Boolean
+  seats    Seat[]
+  sessions Session[]
+}
+
+model Seat {
+  id         String    @id @default(uuid())
+  identifier String
+  roomId     String
+  room       Room      @relation(fields: [roomId], references: [id])
+  active     Boolean
+  bookings   Booking[]
+
+  @@unique([identifier, roomId])
+}
+
+model Session {
+  id              String    @id @default(uuid())
+  movieId         String
+  movie           Movie     @relation(fields: [movieId], references: [id])
+  roomId          String
+  room            Room      @relation(fields: [roomId], references: [id])
+  start           DateTime
+  end             DateTime
+  bookings        Booking[]
+}
+
+model Booking {
+  id        String        @id @default(uuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  sessionId String
+  session   Session       @relation(fields: [sessionId], references: [id])
+  seatId    String
+  seat      Seat          @relation(fields: [seatId], references: [id])
+  status    BookingStatus
+  vipOrders VIPOrder[]
+
+  @@unique([sessionId, seatId])
+}
+
+model VIPOrder {
+  id          String         @id @default(uuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  bookingId   String
+  booking     Booking        @relation(fields: [bookingId], references: [id])
+  createdAt   DateTime
+  status      VIPOrderStatus
+  totalValue  Float
+  items       VIPOrderItem[]
+}
+
+model ProductItem {
+  id          String         @id @default(uuid())
+  name        String
+  description String?
+  currentPrice Float
+  active      Boolean
+  orderItems  VIPOrderItem[]
+}
+
+model VIPOrderItem {
+  id          String      @id @default(uuid())
+  vipOrderId  String
+  vipOrder    VIPOrder    @relation(fields: [vipOrderId], references: [id])
+  productItemId String
+  productItem ProductItem @relation(fields: [productItemId], references: [id])
+  unitPrice   Float
+  amount      Int
+}
+
+// --- CONTRATO RBAC ---
+model User {
+  id        String      @id @default(uuid())
+  name      String
+  email     String      @unique
+  password  String
+  roles     UserRole[]
+  bookings  Booking[]
+  vipOrders VIPOrder[]
+}
+
+model Role {
+  id          String           @id @default(uuid())
+  name        String
+  description String?
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model UserRole {
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+}
+
+model Permission {
+  id          String           @id @default(uuid())
+  key         String           @unique
+  description String?
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id])
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@id([roleId, permissionId])
+}
+
+enum AgeRating {
+  L
+  AGE_10
+  AGE_12
+  AGE_14
+  AGE_16
+  AGE_18
+}
+
+enum RoomType {
+  normal
+  pro_max
+  vip
+}
+
+enum BookingStatus {
+  pending
+  confirmed
+  cancelled
+  used
+}
+
+enum VIPOrderStatus {
+  created
+  sent
+  delivered
+  cancelled
+}

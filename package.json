@@ -1,12 +1,14 @@
 {
   "name": "cinema",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "seed": "ts-node prisma/seed.ts",
     "format:check": "prettier --check .",
     "format": "prettier --write ."
   },
@@ -20,6 +22,7 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.3.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/pg": "^8.18.0",
@@ -30,6 +33,7 @@
     "prettier": "^3.8.1",
     "prisma": "^7.4.2",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

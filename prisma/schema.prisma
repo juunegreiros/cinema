@@ -25,12 +25,12 @@ model Movie {
 }
 
 enum AgeRate { // opções disponiveis dentro do ageRating
-  LIVRE
-  MAIOR_10
-  MAIOR_12
-  MAIOR_14
-  MAIOR_16
-  MAIOR_18
+  None
+  PG_10 // PG = Parental Guidance
+  PG_12 
+  PG_14
+  R_16  // R = Restricted
+  NC_18 // NC = No Children Under..
 }
 
 model Room {

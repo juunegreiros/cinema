@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -86,9 +85,9 @@ sessionId     String
 seatId        String
 status        BookStatus  @default(PENDING) // define uma opção como default na criação
 createdAt     DateTime    @default(now()) // saber quando foi criado
-updateAt      DateTime    @updateAt // saber quando foi alterado o status
+updatedAt      DateTime    @updatedAt // saber quando foi alterado o status
 
-user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
+//user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
 session     Session     @relation(fields: [sessionId], references: [id]) // Cria a relação com o model Session e indica os campos a ser consultados
 seat        Seat        @relation(fields: [seatId], references: [id]) // Cria a relação com o model Seat e indica os campos a ser consultados
 }

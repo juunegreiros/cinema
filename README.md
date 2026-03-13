@@ -7,7 +7,7 @@ First, duplicate `.env.example` file to `.env` and add the correct values
 Install modules
 
 ```bash
-npm run install
+npm install
 ```
 
 Then init db

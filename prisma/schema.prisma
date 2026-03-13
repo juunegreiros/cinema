@@ -19,16 +19,18 @@ model Movie {
   durationMinutes     Int   
   ageRating           AgeRate  
   active              Boolean
-  createdAt           DateTime    @default(now())
+  createdAt           DateTime  @default(now()) // saber quando foi criado
+
+  sessions            Session[] // indica relação desse model com o Session
 }
 
-enum AgeRate {
-  LIVRE
-  MAIOR_10
-  MAIOR_12
-  MAIOR_14
-  MAIOR_16
-  MAIOR_18
+enum AgeRate { // opções disponiveis dentro do ageRating
+  None
+  PG_10 // PG = Parental Guidance
+  PG_12 
+  PG_14
+  R_16  // R = Restricted
+  NC_18 // NC = No Children Under..
 }
 
 model Room {
@@ -36,12 +38,13 @@ model Room {
   name        String
   type        RoomType
   active      Boolean
-  createdAt   DateTime    @default(now())
+  createdAt   DateTime  @default(now()) // saber quando foi criado
 
-  seats       Seat[]
+  seats       Seat[] // indica relação com o model Seat
+  sessions    Session[] // indica relaçao com o model Session
 }
 
-enum RoomType {
+enum RoomType { // opções disponiveis no type
   NORMAL
   PRO_MAX
   VIP
@@ -52,9 +55,47 @@ model Seat {
   identifier  String
   roomId      String
   active      Boolean
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime  @default(now()) // saber quando foi criado
 
-  room        Room     @relation(fields: [roomId], references: [id])
+  room        Room      @relation(fields: [roomId], references: [id]) // Cria a relaçao com o model room e indica os campos que vão ser consultados
 
-  @@unique([roomId, identifier])
+  bookings Booking[] // indica relaçao com o model Booking
+
+  @@unique([roomId, identifier]) // bloqueia que exista outro identificador igual na mesma room
+}
+
+model Session {
+  id                String    @id @default(uuid()) 
+  movieId           String
+  roomId            String
+  durationMinutes   Int
+  start             DateTime
+  end               DateTime
+  createdAt         DateTime  @default(now()) // saber quando foi criado
+
+  movie             Movie     @relation(fields: [movieId], references: [id]) // Cria a relação com o model Movie e indica os campos a ser consultados
+  room              Room      @relation(fields: [roomId], references: [id])  // Cria a relação com o model Room e indica os campos a ser consultados
+
+  bookings Booking[] // indica a relaçao com o model Booking
+}
+
+model Booking {
+id            String      @id @default(uuid())
+userId        String
+sessionId     String
+seatId        String
+status        BookStatus  @default(PENDING) // define uma opção como default na criação
+createdAt     DateTime    @default(now()) // saber quando foi criado
+updateAt      DateTime    @updateAt // saber quando foi alterado o status
+
+user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
+session     Session     @relation(fields: [sessionId], references: [id]) // Cria a relação com o model Session e indica os campos a ser consultados
+seat        Seat        @relation(fields: [seatId], references: [id]) // Cria a relação com o model Seat e indica os campos a ser consultados
+}
+
+enum BookStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  USED 
 }

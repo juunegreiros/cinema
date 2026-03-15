@@ -166,7 +166,7 @@ _Exemplo:_
 "totalValue": 49.50
 }
 
-## Item do Cardápio (ProductItem)
+## Item do Cardápio (Item)
 
 _Campos:_
 
@@ -186,7 +186,7 @@ _Exemplo:_
 "active": true
 }
 
-## Item Pedido (VIPOrderItem)
+## Item Pedido (OrderItem)
 
 _Campos:_
 

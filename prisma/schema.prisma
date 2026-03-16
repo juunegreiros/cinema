@@ -106,13 +106,13 @@ enum BookStatus {
 }
 
 model VIPOrder {
-id:           String      @id @default(uuid())
-userId:       String
-bookingId:    String 
-status:       VIPStatus
-totalValue:   Double
-createdAt:    DateTime    @default(now()) // saber quando foi criado
-updatedAt     DateTime    @updatedAt // saber quando foi alterado o status
+id           String      @id @default(uuid())
+userId       String
+bookingId    String 
+status       VIPStatus
+totalValue   Double
+createdAt    DateTime    @default(now()) // saber quando foi criado
+updatedAt    DateTime    @updatedAt // saber quando foi alterado o status
 
 user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
 booking     Booking     @relation(fields: [bookingId], references: [id]) // Cria a relação com o model Booking e indica os campos a ser consultados
@@ -128,26 +128,26 @@ enum VIPStatus {
 }
 
 model OrderItem {
-id:             String       @id @default(uuid())
-VIPOrder:       String
-itemId:         String
-unitPrice:      Double
-amount:         Int
-createdAt:      DateTime    @default(now()) // saber quando foi criado
-updatedAt       DateTime    @updatedAt // saber quando foi alterado
+id           String       @id @default(uuid())
+VIPOrder     String
+itemId       String
+unitPrice    Double
+amount       Int
+createdAt    DateTime    @default(now()) // saber quando foi criado
+updatedAt    DateTime    @updatedAt // saber quando foi alterado
 
 vipOrder      VIPOrder      @relation(fields: [VIPOrderId], references: [id]) // Cria a relação com o model VIPOrder e indica os campos a ser consultados
 item          Item          @relation(fields: [itemId], references: [id]) // Cria a relação com o model Item e indica os campos a ser consultados
 }
 
 model Item {
-id:             String   @id @default(uuid())
-name:           String
-description:    String
-currentPrice:   Double
-active:         Boolean
-createdAt:      DateTime    @default(now()) // saber quando foi criado
-updatedAt       DateTime    @updatedAt // saber quando foi alterado
+id             String   @id @default(uuid())
+name           String
+description    String
+currentPrice   Double
+active         Boolean
+createdAt      DateTime    @default(now()) // saber quando foi criado
+updatedAt      DateTime    @updatedAt // saber quando foi alterado
 
 orderitems   OrderItem[]  // indica a relaçao com o model OrderItem
 }

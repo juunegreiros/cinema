@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -20,6 +19,7 @@ model Movie {
   ageRating           AgeRate  
   active              Boolean
   createdAt           DateTime  @default(now()) // saber quando foi criado
+  updatedAt           DateTime  @updatedAt // saber quando foi alterado
 
   sessions            Session[] // indica relação desse model com o Session
 }
@@ -39,6 +39,7 @@ model Room {
   type        RoomType
   active      Boolean
   createdAt   DateTime  @default(now()) // saber quando foi criado
+  updatedAt   DateTime  @updatedAt // saber quando foi alterado
 
   seats       Seat[] // indica relação com o model Seat
   sessions    Session[] // indica relaçao com o model Session
@@ -56,6 +57,7 @@ model Seat {
   roomId      String
   active      Boolean
   createdAt   DateTime  @default(now()) // saber quando foi criado
+  updatedAt   DateTime  @updatedAt // saber quando foi alterado
 
   room        Room      @relation(fields: [roomId], references: [id]) // Cria a relaçao com o model room e indica os campos que vão ser consultados
 
@@ -72,6 +74,7 @@ model Session {
   start             DateTime
   end               DateTime
   createdAt         DateTime  @default(now()) // saber quando foi criado
+  updatedAt         DateTime  @updatedAt // saber quando foi alterado
 
   movie             Movie     @relation(fields: [movieId], references: [id]) // Cria a relação com o model Movie e indica os campos a ser consultados
   room              Room      @relation(fields: [roomId], references: [id])  // Cria a relação com o model Room e indica os campos a ser consultados
@@ -86,11 +89,13 @@ sessionId     String
 seatId        String
 status        BookStatus  @default(PENDING) // define uma opção como default na criação
 createdAt     DateTime    @default(now()) // saber quando foi criado
-updateAt      DateTime    @updateAt // saber quando foi alterado o status
+updatedAt     DateTime    @updatedAt // saber quando foi alterado o status
 
 user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
 session     Session     @relation(fields: [sessionId], references: [id]) // Cria a relação com o model Session e indica os campos a ser consultados
 seat        Seat        @relation(fields: [seatId], references: [id]) // Cria a relação com o model Seat e indica os campos a ser consultados
+
+viporders VIPOrder[] // indica a relaçao com o model VIPOrder
 }
 
 enum BookStatus {
@@ -98,4 +103,51 @@ enum BookStatus {
   CONFIRMED
   CANCELLED
   USED 
+}
+
+model VIPOrder {
+id           String      @id @default(uuid())
+userId       String
+bookingId    String 
+status       VIPStatus
+totalValue   Double
+createdAt    DateTime    @default(now()) // saber quando foi criado
+updatedAt    DateTime    @updatedAt // saber quando foi alterado o status
+
+user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
+booking     Booking     @relation(fields: [bookingId], references: [id]) // Cria a relação com o model Booking e indica os campos a ser consultados
+
+orderitems   OrderItem[]  // indica a relaçao com o model OrderItem
+}
+
+enum VIPStatus {
+  CREATED
+  SENT
+  DELIVERED
+  CANCELLED
+}
+
+model OrderItem {
+id           String       @id @default(uuid())
+VIPOrder     String
+itemId       String
+unitPrice    Double
+amount       Int
+createdAt    DateTime    @default(now()) // saber quando foi criado
+updatedAt    DateTime    @updatedAt // saber quando foi alterado
+
+vipOrder      VIPOrder      @relation(fields: [VIPOrderId], references: [id]) // Cria a relação com o model VIPOrder e indica os campos a ser consultados
+item          Item          @relation(fields: [itemId], references: [id]) // Cria a relação com o model Item e indica os campos a ser consultados
+}
+
+model Item {
+id             String   @id @default(uuid())
+name           String
+description    String
+currentPrice   Double
+active         Boolean
+createdAt      DateTime    @default(now()) // saber quando foi criado
+updatedAt      DateTime    @updatedAt // saber quando foi alterado
+
+orderitems   OrderItem[]  // indica a relaçao com o model OrderItem
 }

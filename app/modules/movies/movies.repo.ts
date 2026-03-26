@@ -31,3 +31,20 @@ export async function getMovieById(id: string) {
 
   return movie
 }
+
+export async function updateMovie(id: string, movie: Partial<Movie>) {
+  const updatedMovie = await prisma.movie.update({
+    where: { id },
+    data: movie,
+  })
+
+  return updatedMovie
+}
+
+export async function deleteMovie(id: string) {
+  const deletedMovie = await prisma.movie.delete({
+    where: { id },
+  })
+
+  return deletedMovie
+}

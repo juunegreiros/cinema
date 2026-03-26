@@ -91,7 +91,7 @@ status        BookStatus  @default(PENDING) // define uma opção como default n
 createdAt     DateTime    @default(now()) // saber quando foi criado
 updatedAt     DateTime    @updatedAt // saber quando foi alterado o status
 
-user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
+// user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
 session     Session     @relation(fields: [sessionId], references: [id]) // Cria a relação com o model Session e indica os campos a ser consultados
 seat        Seat        @relation(fields: [seatId], references: [id]) // Cria a relação com o model Seat e indica os campos a ser consultados
 
@@ -110,11 +110,11 @@ id           String      @id @default(uuid())
 userId       String
 bookingId    String 
 status       VIPStatus
-totalValue   Double
+totalValue   Float
 createdAt    DateTime    @default(now()) // saber quando foi criado
 updatedAt    DateTime    @updatedAt // saber quando foi alterado o status
 
-user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
+// user        User        @relation(fields: [userId], references: [id]) // Cria a relação com o model User e indica os campos a ser consultados
 booking     Booking     @relation(fields: [bookingId], references: [id]) // Cria a relação com o model Booking e indica os campos a ser consultados
 
 orderitems   OrderItem[]  // indica a relaçao com o model OrderItem
@@ -129,9 +129,9 @@ enum VIPStatus {
 
 model OrderItem {
 id           String       @id @default(uuid())
-VIPOrder     String
+VIPOrderId     String
 itemId       String
-unitPrice    Double
+unitPrice    Float
 amount       Int
 createdAt    DateTime    @default(now()) // saber quando foi criado
 updatedAt    DateTime    @updatedAt // saber quando foi alterado
@@ -144,7 +144,7 @@ model Item {
 id             String   @id @default(uuid())
 name           String
 description    String
-currentPrice   Double
+currentPrice   Float
 active         Boolean
 createdAt      DateTime    @default(now()) // saber quando foi criado
 updatedAt      DateTime    @updatedAt // saber quando foi alterado

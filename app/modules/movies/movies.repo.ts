@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { Movie, PrismaClient } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { AgeRate } from '@/app/generated/prisma/enums'
 
@@ -11,20 +11,23 @@ export async function listMovies() {
   return movies
 }
 
-export async function createMovie(movies: {
-  title: string
-  durationMinutes: number
-  ageRating: AgeRate
-  active: boolean
-}) {
-  const createdMovie = await prisma.movie.create({
+export async function createMovie(movie: Movie) {
+  const movies = await prisma.movie.create({
     data: {
-      title: movies.title,
-      durationMinutes: movies.durationMinutes,
-      ageRating: movies.ageRating,
-      active: movies.active,
+      title: movie.title,
+      durationMinutes: movie.durationMinutes,
+      ageRating: movie.ageRating,
+      active: movie.active,
     },
   })
 
-  return createdMovie
+  return movies
+}
+
+export async function getMovieById(id: string) {
+  const movie = await prisma.movie.findUnique({
+    where: { id },
+  })
+
+  return movie
 }

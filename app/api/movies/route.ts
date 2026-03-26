@@ -1,12 +1,8 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
-
-const adapter = new PrismaPg({ connectionString: process.env['DATABASE_URL'] })
-const prisma = new PrismaClient({ adapter })
+import { listMovies } from '@/app/modules/movies/movies.repo'
 
 export async function GET() {
-  const movies = await prisma.movie.findMany()
+  const movies = await listMovies()
 
   return NextResponse.json({ data: movies }, { status: 200 })
 }

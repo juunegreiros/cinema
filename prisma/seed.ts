@@ -49,6 +49,28 @@ async function main() {
     },
   })
 
+  await prisma.permission.create({
+    data: {
+      key: '1',
+      description: 'view.product',
+    },
+  })
+
+  await prisma.role.create({
+    data: {
+      name: 'Atendente',
+      description: 'Atendente cinema',
+    },
+  })
+
+  await prisma.user.create({
+    data: {
+      name: 'Gabriela',
+      email: 'gabriela@email.com',
+      password: 'qawsedrf',
+    },
+  })
+
   console.log('✅ Tudo criado com sucesso!')
 }
 

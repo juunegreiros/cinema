@@ -151,3 +151,26 @@ updatedAt      DateTime    @updatedAt // saber quando foi alterado
 
 orderitems   OrderItem[]  // indica a relaçao com o model OrderItem
 }
+
+model Permission {
+  id            String @id @default(uuid())
+  key           String
+  description   String
+  role          Role[]
+}
+
+model Role {
+  id            String @id @default(uuid())
+  name          String
+  description   String
+  permissions   Permission[]
+  users         User[]
+}
+
+model User {
+  id            String @id @default(uuid())
+  name          String
+  email         String @unique
+  password      String
+  roles          Role[]
+}

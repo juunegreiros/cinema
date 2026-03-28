@@ -110,7 +110,7 @@ id           String      @id @default(uuid())
 userId       String
 bookingId    String 
 status       VIPStatus
-totalValue   Double
+totalValue   Decimal
 createdAt    DateTime    @default(now()) // saber quando foi criado
 updatedAt    DateTime    @updatedAt // saber quando foi alterado o status
 
@@ -129,9 +129,9 @@ enum VIPStatus {
 
 model OrderItem {
 id           String       @id @default(uuid())
-VIPOrder     String
+VIPOrderId     String
 itemId       String
-unitPrice    Double
+unitPrice    Decimal
 amount       Int
 createdAt    DateTime    @default(now()) // saber quando foi criado
 updatedAt    DateTime    @updatedAt // saber quando foi alterado
@@ -144,7 +144,7 @@ model Item {
 id             String   @id @default(uuid())
 name           String
 description    String
-currentPrice   Double
+currentPrice   Decimal
 active         Boolean
 createdAt      DateTime    @default(now()) // saber quando foi criado
 updatedAt      DateTime    @updatedAt // saber quando foi alterado
@@ -173,4 +173,6 @@ model User {
   email         String @unique
   password      String
   roles          Role[]
+  bookings Booking[]
+  vipOrders VIPOrder[]
 }
